@@ -1,0 +1,14 @@
+*.out
+*.sh
+test
+.DS_Store
+.swp
+*.o
+.idea
+.vscode
+*.pdf
+*.so
+*.a
+linux_checker
+osx_checker
+push_swap
