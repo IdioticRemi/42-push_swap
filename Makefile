@@ -1,42 +1,42 @@
 # Program name
-
 NAME	= push_swap
 
-# Libraries
+# Directories
+LIBFT	= libft/
 
-LIBFT	= ./libft
+INC_DIR	= includes/
+SRC_DIR	= srcs/
+OBJ_DIR	= objs/
 
 # Sources
+__SRCS	= main.c checker.c parsing.c op0.c op1.c pututil.c
 
-__SRCS	= main.c
+SRCS	= $(addprefix $(SRC_DIR), $(__SRCS))
+OBJS	= $(addprefix $(OBJ_DIR), $(__SRCS:.c=.o))
 
-SRCS	= $(addprefix srcs/, $(__SRCS))
-OBJS	= $(SRCS:.c=.o)
+# Compile
+CC		= clang
 
-# Commands
-
-CC		= gcc
-RM		= rm -f
-
-CFLAGS	= -Wall -Werror -Wextra
-INCLUDE	= -I./includes
-LIBS	= -L$(LIBFT) -lft
+CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
+INCLUDE	= -I $(INC_DIR) -I $(LIBFT)
+LIBS	= -L $(LIBFT) -lft
 
 # Rules
-
-%.o: %.c includes/$(NAME).h
-	$(CC) $(CFLAGS) $(INCLUDE) $(LIBS) -c $< -o $@
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INC_DIR)/$(NAME).h
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJS)
 	make -C $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(LIBS) -o $(NAME)
 
 all: $(NAME) 
 
 clean:
-	$(RM) $(OBJS)
+	make -C $(LIBFT) clean
+	rm -f $(OBJS)
 
-fclean: clean
-	$(RM) $(NAME)
+fclean:
+	make -C $(LIBFT) fclean
+	rm -f $(NAME) $(OBJS)
 
-re: fclean all
+re: fclean $(NAME) 
