@@ -18,7 +18,8 @@ SRC	= \
 	ft_lstnew ft_lstadd_front ft_lstadd_back \
 	ft_lstdelone ft_lstclear \
 	ft_lstsize ft_lstlast \
-	ft_lstiter ft_lstmap
+	ft_lstiter ft_lstmap \
+	ft_afree ft_atol
 
 SRCS	= $(addsuffix .c, $(SRC))
 OBJS	= $(SRCS:.c=.o)
@@ -32,21 +33,41 @@ RN		= ranlib
 
 CFLAGS	= -Wall -Werror -Wextra
 
+# FORMAT
+
+FG_MAGE	= \033[0;35m
+FG_CYAN	= \033[0;36m
+FG_WHIT	= \033[0;37m
+FG_GREE	= \033[0;32m
+
+C_BUILD	= $(FG_WHIT)[ LIBFT ]$(FG_WHIT) $(FG_CYAN)Starting build process.\n$(FG_WHIT)
+C_AR	= $(FG_WHIT)[ LIBFT ]$(FG_WHIT) $(FG_GREE)Built '$(NAME)'.\n$(FG_WHIT)
+C_CLEAN	= $(FG_WHIT)[ LIBFT ]$(FG_WHIT) $(FG_MAGE)Build objects cleaned.\n$(FG_WHIT)
+C_FCLEA	= $(FG_WHIT)[ LIBFT ]$(FG_WHIT) $(FG_MAGE)Library was cleaned.\n$(FG_WHIT)
+
 # RULES
 
 %.o: %.c libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "."
 
 $(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
-	$(RN) $(NAME)
+	@$(AR) $(NAME) $(OBJS)
+	@$(RN) $(NAME)
+	@printf " [$(words $(OBJS))]\n"
+	@printf "$(C_AR)"
 
-all: $(NAME)
+log:
+	@printf "$(C_BUILD)"
+
+all: log $(NAME)
 
 clean:
-	$(RM) $(OBJS)
+	@$(RM) $(OBJS)
+	@printf "$(C_CLEAN)"
 
-fclean: clean
-	$(RM) $(NAME)
+fclean:
+	@$(RM) $(NAME) $(OBJS)
+	@printf "$(C_FCLEA)"
 
 re: fclean all

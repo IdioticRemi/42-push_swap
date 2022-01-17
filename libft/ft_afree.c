@@ -1,13 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   op1.c                                              :+:      :+:    :+:   */
+/*   ft_afree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjolivea <tjolivea@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 13:16:34 by tjolivea          #+#    #+#             */
-/*   Updated: 2021/12/14 13:16:40 by tjolivea         ###   ########.fr       */
+/*   Created: 2021/12/05 23:23:26 by tjolivea          #+#    #+#             */
+/*   Updated: 2022/01/17 10:16:58 by tjolivea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
+
+void	ft_afree(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}

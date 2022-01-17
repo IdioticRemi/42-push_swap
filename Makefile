@@ -9,7 +9,7 @@ SRC_DIR	= srcs/
 OBJ_DIR	= objs/
 
 # Sources
-__SRCS	= main.c checker.c parsing.c op0.c op1.c pututil.c
+__SRCS	= main.c parsing.c ops.c lstutil.c sort.c
 
 SRCS	= $(addprefix $(SRC_DIR), $(__SRCS))
 OBJS	= $(addprefix $(OBJ_DIR), $(__SRCS:.c=.o))
@@ -17,26 +17,44 @@ OBJS	= $(addprefix $(OBJ_DIR), $(__SRCS:.c=.o))
 # Compile
 CC		= clang
 
-CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -O3 -g -fsanitize=address
 INCLUDE	= -I $(INC_DIR) -I $(LIBFT)
 LIBS	= -L $(LIBFT) -lft
 
+# Color
+
+FG_MAGE	= \033[0;35m
+FG_CYAN	= \033[0;36m
+FG_WHIT	= \033[0;37m
+FG_GREE	= \033[0;32m
+
 # Rules
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INC_DIR)/$(NAME).h
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@printf "."
 
 $(NAME): $(OBJS)
-	make -C $(LIBFT)
-	$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(LIBS) -o $(NAME)
+	@printf " [$(words $(OBJS))]\n"
+	@make -s -C $(LIBFT) all
+	@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(LIBS) -o $(NAME)
+	@printf "[ PUSH-SWAP ] $(FG_GREE)Built '$(NAME)'.$(FG_WHIT)\n"
 
-all: $(NAME) 
+log:
+	@printf "[ PUSH-SWAP ] $(FG_CYAN)Starting build process.$(FG_WHIT)\n"
+
+all: log $(NAME)
 
 clean:
-	make -C $(LIBFT) clean
-	rm -f $(OBJS)
+	@make -s -C$(LIBFT) clean
+	@rm -f $(OBJS)
+	@printf "[ PUSH-SWAP ] $(FG_MAGE)Build objects cleaned.$(FG_WHIT)\n"
 
 fclean:
-	make -C $(LIBFT) fclean
-	rm -f $(NAME) $(OBJS)
+	@make -s -C $(LIBFT) fclean
+	@rm -f $(NAME) $(OBJS)
+	@printf "[ PUSH-SWAP ] $(FG_MAGE)Program files cleaned.$(FG_WHIT)\n"
 
-re: fclean $(NAME) 
+norm:
+	@norminette $(SRC_DIR)
+
+re: fclean all

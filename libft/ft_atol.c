@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjolivea <tjolivea@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/04 19:06:26 by tjolivea          #+#    #+#             */
-/*   Updated: 2022/01/17 13:24:11 by tjolivea         ###   ########.fr       */
+/*   Created: 2022/01/17 10:33:24 by tjolivea          #+#    #+#             */
+/*   Updated: 2022/01/17 10:35:36 by tjolivea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, int(*f)(int))
+long	ft_atol(const char *nptr)
 {
-	t_list	*alst;
-	t_list	*new;
+	long	x;
+	int		sign;
 
-	alst = 0;
-	while (lst)
+	x = 0;
+	sign = 1;
+	while (*nptr && ((*nptr >= 9 && *nptr <= 13) || *nptr == ' '))
+		nptr++;
+	if (*nptr && !ft_isdigit(*nptr))
 	{
-		new = ft_lstnew((*f)(lst->content));
-		if (!new)
-		{
-			ft_lstclear(&alst);
-			return (0);
-		}
-		ft_lstadd_back(&alst, new);
-		lst = lst->next;
+		sign *= ((*nptr == '+') * 1) + ((*nptr == '-') * -1);
+		nptr++;
 	}
-	return (alst);
+	while (*nptr && ft_isdigit(*nptr))
+		x = x * 10 + (*nptr++ - '0');
+	return (sign * x);
 }

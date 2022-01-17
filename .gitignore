@@ -1,6 +1,7 @@
 *.out
 *.sh
 test
+tester*
 .DS_Store
 .swp
 *.o
@@ -9,6 +10,9 @@ test
 *.pdf
 *.so
 *.a
+*.py
+complexity
 linux_checker
 osx_checker
+checker
 push_swap
