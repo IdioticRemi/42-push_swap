@@ -15,9 +15,9 @@ SRCS	= $(addprefix $(SRC_DIR), $(__SRCS))
 OBJS	= $(addprefix $(OBJ_DIR), $(__SRCS:.c=.o))
 
 # Compile
-CC		= clang
+CC		= gcc
 
-CFLAGS	= -Wall -Werror -Wextra -O3 -g -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -O3
 INCLUDE	= -I $(INC_DIR) -I $(LIBFT)
 LIBS	= -L $(LIBFT) -lft
 
@@ -30,6 +30,7 @@ FG_GREE	= \033[0;32m
 
 # Rules
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INC_DIR)/$(NAME).h
+	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	@printf "."
 
