@@ -40,10 +40,10 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(LIBS) -o $(NAME)
 	@printf "[ PUSH-SWAP ] $(FG_GREE)Built '$(NAME)'.$(FG_WHIT)\n"
 
+all: log $(NAME)
+
 log:
 	@printf "[ PUSH-SWAP ] $(FG_CYAN)Starting build process.$(FG_WHIT)\n"
-
-all: log $(NAME)
 
 clean:
 	@make -s -C$(LIBFT) clean
